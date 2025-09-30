@@ -1,0 +1,11 @@
+/**
+ * Styles pour l'effet de flou sur les éléments principaux quand un modal est ouvert
+ */
+
+/* Appliquer le flou aux éléments principaux quand le body a la classe do-blur */
+body.do-blur header.audio-container,
+body.do-blur .main-panel,
+body.do-blur .sidebar {
+    filter: blur(.1em);
+    transition: filter 0.2s ease;
+}

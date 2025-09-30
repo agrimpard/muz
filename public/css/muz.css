@@ -1,0 +1,703 @@
+/**
+ * Muz - Styles CSS
+ */
+
+:root {
+    --muz-color: rgba(32, 201, 151, 1);
+    --muz-color-light: rgba(32, 201, 150, 0.53);
+    --muz-color-light-light: rgba(32, 201, 150, 0.14);
+    --muz-color-dark: rgba(25, 153, 115, 1);
+    --muz-color-none: rgba(32, 201, 150, 0);
+    --muz-success: #1ddf84;
+}
+.btn-outline-success {
+    color: var(--muz-success);
+    border-color: var(--muz-success);
+}
+.btn.btn-outline-success:hover {
+  background-color: var(--muz-success);
+  border-color: var(--muz-success);
+}
+
+/* Écran de chargement */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Section fond d'écran */
+.background-preview {
+    border: 1px solid #646464;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.background-preview:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+#loading-screen img {
+    max-width: 200px;
+    margin-bottom: 50px;
+    animation: pulse 1.5s infinite;
+}
+
+#loading-screen h1 {
+    font-weight: bold;
+    letter-spacing: .1em;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Généraux */
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 0.95rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Layout */
+.container-fluid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+header {
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 20px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+}
+
+.main-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    overflow-y: auto;
+    background-color: rgb(27, 27, 27);
+    color: #CCC;
+}
+
+.sidebar h1 {
+    font-size: 4.5em;
+}
+.sidebar h1 img {
+    max-height: 61px;
+}
+.sidebar h1 .h1-1 {
+    color: rgba(255, 255, 255, 0.9);
+}
+.sidebar h1 .h1-2 {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: .7em;
+}
+.sidebar h1 .h1-3 {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: .8em;
+
+}
+
+.main-panel {
+    flex: 1;
+    overflow-y: auto;
+    height: calc(100vh - 65px);
+}
+
+/* MP3 Grid */
+.mp3-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 4px;
+}
+
+.mp3-item {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 4px 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.mp3-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--muz-color-light-light);
+}
+
+/* Style pour l'élément en cours de lecture */
+.mp3-item.playing {
+    background-color: #F7F7F7;
+    border-color: var(--muz-color);
+    position: relative;
+    overflow: hidden;
+    border-style: double;
+}
+
+/* Les styles pour les bordures en pointillés sont gérés par JavaScript (muz-playlist-style.js) */
+
+/* Variable CSS personnalisée pour la progression */
+:root {
+    --mp3-progress: 0%;
+}
+
+.mp3-item.playing::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+	height: 1000px;
+	background-color: var(--muz-color-light);
+	width: var(--mp3-progress);
+	transition: width 0.1s linear;
+	opacity: .25;
+}
+
+.mp3-item .mp3-title {
+    font-weight: 500;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mp3-item .mp3-artist {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.mp3-item .mp3-album {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.mp3-item .mp3-rating {
+	position: absolute;
+	top: -1px;
+	opacity: .5;
+	font-size: 0.4em;
+}
+.mp3-item:hover .mp3-menu-button {
+    display: block;
+}
+
+.mp3-item .mp3-menu-button {
+    display: none;
+	position: absolute;
+	top: 0px;
+	right: 0;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	opacity: 0.6;
+	border: none;
+	background-color: transparent;
+    transition: all 0.2s ease;
+}
+
+.mp3-item .mp3-menu-button:hover {
+    opacity: 1;
+    background-color: #FFF;
+}
+
+/* Lecteur audio */
+.audio-container {
+    padding: 15px;
+    height: 300px;
+    margin-bottom: 20px;
+	gap: 10px;
+    /* background-image sera défini dynamiquement par JavaScript */
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #333;
+}
+
+/* Audio visualizer overlay */
+#audio-visualizer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1; /* sous .player-m et .plyr */
+    mix-blend-mode: screen; /* meilleur contraste sur fonds sombres */
+}
+
+/* S'assurer que le lecteur Plyr est au-dessus du bandeau .player-m et du visualizer */
+.audio-container .plyr {
+    position: relative;
+    z-index: 12; /* au-dessus de .player-m (11) et du canvas (1) */
+}
+
+/* S'assurer que le bandeau .player-m est au-dessus du canvas */
+.audio-container .player-m {
+    position: relative;
+    z-index: 11;
+}
+
+.audio-container h3 {
+    font-size: 1.4rem;
+}
+
+.audio-container audio {
+    width: 100%;
+    vertical-align: middle;
+}
+
+.audio-container .player-m {
+    display: inline-block;
+    margin-top: 160px;
+    padding: 10px 20px;
+    background: #222;
+	color: #FFF;
+    box-shadow: 2px 2px 15px #20C997;
+    transition: all .2s ease-in-out;
+}
+.audio-container .plyr {
+    display: inline-block;
+	min-width: 75%;
+    padding: 10px 20px;
+    background: #FFF;
+    border-radius: 0;
+    box-shadow: 2px 2px 15px #20C997;
+    transition: all .2s ease-in-out;
+}
+.audio-container .plyr.plyr--audio .plyr__controls {
+	background-color: transparent;
+	padding: 0;
+}
+.audio-container .player-g {
+    color: var(--muz-color);
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.audio-container .player-t {
+	margin-left: 25px;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.audio-container .player-bt-prev,
+.audio-container .player-bt-next,
+.audio-container .player-bt-spe {
+	display: inline-block;
+    margin: 0 25px -10px 0;
+    padding: 7px;
+	border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.audio-container .player-bt-next {
+    margin: 0 0 -10px 25px;
+}
+.audio-container .player-bt-prev:hover,
+.audio-container .player-bt-next:hover,
+.audio-container .player-bt-spe:hover {
+	background-color: var(--muz-color);
+    color: #FFF;
+}
+
+.audio-container .player-bt-spe.active {
+    background-color: var(--muz-color);
+    color: #FFF;
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}
+
+/* Bouton toggle sidebar */
+.sidebar-toggle {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 100;
+}
+
+.sidebar-toggle button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.sidebar-toggle button:hover {
+    background-color: var(--muz-color);
+    border-color: var(--muz-color);
+}
+
+/* Classe pour cacher la sidebar */
+.sidebar-hidden {
+    margin-left: -300px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Transition pour la sidebar */
+.sidebar {
+    transition: margin-left 0.3s ease;
+}
+
+.current-time-container {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.progress {
+    height: 6px;
+    margin-top: 5px;
+}
+
+#now-playing {
+    font-style: italic;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+/* Liste des playlists */
+.playlists-section h3 {
+  font-size: 1.2rem;
+  padding-bottom: 5px;
+}
+
+.playlist-select-container {
+    align-items: center;
+}
+
+#delete-current-playlist {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.playlists-section .list-group-item {
+    padding: 8px 10px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.playlists-section .list-group-item.active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.playlist-link {
+    display: block;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.playlist-actions {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.playlist-actions:hover {
+    opacity: 1;
+}
+
+/* Liste des chansons */
+.songs-container h3 {
+    font-size: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+/* Styles pour les boutons d'action dans le songs-container */
+.songs-container h3 .btn {
+    margin: 0 5px;
+}
+
+/* Style pour la barre de progression dans le songs-container */
+#playlist-prep-progress {
+    width: 100%;
+    margin-top: 8px;
+    height: 5px;
+}
+
+/* Étoiles de notation */
+.rating-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.rating-star {
+    color: #ffc107;
+    cursor: pointer;
+    margin-right: 3px;
+}
+
+.rating-star:hover {
+    color: #e0a800;
+}
+
+/* Tags */
+.tags-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tag-badge {
+    padding: 5px 8px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    cursor: default;
+}
+
+.artist-tag-badge {
+    background-color: #dc3545;
+    color: white;
+}
+
+.artist-tag-filters .badge {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.tag-remove {
+    color: white;
+    margin-left: 5px;
+}
+
+.tag-remove:hover {
+    color: #f8f9fa;
+}
+
+.tag-input {
+    width: 150px;
+    display: inline-block;
+}
+
+/* Filtres */
+
+.filters-section h3 {
+    font-size: 1.2rem;
+    padding-bottom: 5px;
+}
+
+.filters-section h4 {
+    font-size: 1rem;
+    color: #c8c8c8;
+}
+
+.filter-stars .fas {
+    color: #ffc107;
+}
+
+.filter-active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.tag-filters, .artist-tag-filters {
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.filters-section .badge {
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 5px 6px 4px;
+}
+
+/* Bouton de lecture */
+.play-button {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 1.2em;
+}
+
+.play-button:hover {
+    color: #0056b3;
+}
+
+/* Bouton de renommage */
+.rename-button {
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+
+.rename-button:hover {
+    color: #5a6268;
+}
+
+/* Boutons de contrôle */
+.song-controls .fa-ellipsis-h {
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 1.2em;
+}
+
+.song-controls .fa-ellipsis-h:hover {
+    color: #5a6268;
+}
+
+/* Boutons du lecteur */
+#toggle-shuffle, #toggle-alphabetical {
+    transition: all 0.3s ease;
+}
+
+#toggle-shuffle.active, #toggle-alphabetical.active {
+    background-color: #17a2b8;
+    color: white;
+}
+
+/* Boutons de tri */
+.sort-options {
+    display: flex;
+    gap: 10px;
+}
+
+.sort-options button {
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+}
+
+.sort-options button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Menu contextuel des MP3 */
+.dropdown-menu {
+    min-width: 200px;
+}
+
+.dropdown-item {
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item i {
+    margin-right: 10px;
+    width: 15px;
+    text-align: center;
+}
+
+/* Modal de renommage */
+.modal-footer {
+    justify-content: space-between;
+}
+
+/* Animation pour le MP3 en cours de lecture */
+@keyframes playingPulse {
+    0% {
+        box-shadow: 0 0 0 0 var(--muz-color-none);
+    }
+    70% {
+        box-shadow: 0 0 0 6px var(--muz-color-light-light);
+    }
+    100% {
+        box-shadow: 0 0 0 0 var(--muz-color-none);
+    }
+}
+
+.mp3-item.playing {
+    animation: playingPulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px;
+    }
+    
+    .mp3-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        z-index: 1000;
+        border-top: 1px solid #dee2e6;
+        border-right: none;
+        max-height: 50vh;
+    }
+    
+    .main-panel {
+        height: auto;
+        padding-bottom: 60px;
+    }
+    
+    .mp3-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}

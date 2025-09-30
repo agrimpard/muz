@@ -1,0 +1,62 @@
+/**
+ * Styles pour la gestion des playlists et des actions dans l'en-tête
+ */
+
+/* Structure du titre de playlist */
+.playlist-title-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.playlist-title {
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.playlist-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+
+/* Barre de progression */
+#playlist-prep-progress {
+    height: 4px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+#playlist-prep-progress .progress-bar {
+    background-color: var(--muz-color);
+}
+
+/* Style pour les boutons dans l'en-tête */
+.playlist-actions .btn {
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .playlist-title-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .songs-count {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    .playlist-actions {
+        width: 100%;
+    }
+}

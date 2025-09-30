@@ -1,0 +1,15 @@
+﻿{
+	"name": "Muz",
+	"short_name": "Muz",
+	"icons": [{
+			"src": "img/muz.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		}],
+	"lang": "fr-FR",
+	"start_url": "/muz/public/",
+	"display": "standalone",
+	"background_color": "white",
+	"theme_color": "white"
+}

@@ -1,0 +1,31 @@
+/**
+ * Styles personnalisés pour Plyr
+ */
+
+/* Conteneur du lecteur */
+.plyr-container {
+    width: 300px;
+    margin: 0 10px;
+}
+
+/* Style personnalisé pour le lecteur */
+.plyr--audio .plyr__control.plyr__tab-focus,
+.plyr--audio .plyr__control:hover,
+.plyr--audio .plyr__control[aria-expanded=true] {
+    background: var(--muz-color);
+}
+
+.plyr--full-ui input[type=range] {
+    color: var(--muz-color);
+}
+
+.plyr--audio .plyr__control--overlaid {
+    background: var(--muz-color);
+}
+
+/* Ajuster la largeur pour les appareils mobiles */
+@media (max-width: 768px) {
+    .plyr-container {
+        width: 200px;
+    }
+}

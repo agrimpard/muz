@@ -1,0 +1,46 @@
+/**
+ * Styles CSS pour les étoiles de notation
+ */
+
+/* Conteneur pour les étoiles de notation */
+.rating-selection {
+    padding: 15px 0;
+}
+
+/* Style pour les grandes étoiles dans le modal */
+.big-stars {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+/* Style pour les étoiles individuelles */
+.rating-big-star {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 5px;
+}
+
+/* Effet au survol des étoiles */
+.rating-big-star:hover {
+    transform: scale(1.2);
+}
+
+/* Style pour l'affichage de la note actuelle */
+.current-rating {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #495057;
+    margin-top: 10px;
+}
+
+/* Animation pour le changement d'état des étoiles */
+@keyframes star-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.rating-big-star.star-selected {
+    animation: star-pulse 0.3s ease;
+}

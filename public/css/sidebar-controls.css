@@ -1,0 +1,54 @@
+/**
+ * Styles pour la préparation de playlist et le démarrage à un temps spécifique
+ */
+
+/* Contrôles de temps spécifique */
+.start-time-controls input[type="number"] {
+    width: 70px;
+}
+
+/* Styles pour la section de préparation de playlist */
+.playlist-prep-controls .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.playlist-prep-controls .progress {
+    height: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: var(--bs-dark);
+}
+
+.playlist-prep-controls .progress-bar {
+    background-color: var(--muz-color);
+}
+
+/* Input styles */
+.playlist-prep-controls .input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #222;
+    border-color: #444;
+    color: #fff;
+}
+
+.playlist-prep-controls .input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Checkbox styles */
+.playlist-prep-controls .form-check-input {
+    background-color: #333;
+    border-color: #666;
+}
+
+.playlist-prep-controls .form-check-input:checked {
+    background-color: var(--muz-color);
+    border-color: var(--muz-color);
+}
+
+/* Temps spécifique */
+.start-time-controls .btn-dark.text-white {
+    border-color: var(--muz-color);
+    background-color: var(--muz-color-dark);
+}

@@ -1,0 +1,7 @@
+_backup/
+db/backup/*
+public/music/*.mp3
+public/img/gp/*.webp
+mp3-playlist/*.mp3
+conf.ini
+*.sqlite

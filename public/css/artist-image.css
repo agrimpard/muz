@@ -1,0 +1,29 @@
+/**
+ * Styles spécifiques pour l'affichage de l'image d'artiste
+ */
+
+#artist-image-container {
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+#artist-image-title {
+    text-transform: uppercase;
+    letter-spacing: .2em;
+	color: var(--muz-color);
+}
+
+#artist-image {
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#artist-image:hover {
+    transform: scale(1.02);
+}
+
+#artist-image img {
+    max-height: 500px;
+    max-width: 100%;
+    object-fit: contain;
+}

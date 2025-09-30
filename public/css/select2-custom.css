@@ -1,0 +1,119 @@
+/**
+ * Styles personnalisés pour Select2
+ * Adapté au thème sombre de l'application Muz (sans dépendance à bootstrap-theme)
+ */
+
+/* Conteneur principal Select2 */
+.select2-container {
+    font-size: 1rem;
+}
+
+/* Zone de sélection principale */
+.select2-container .select2-selection--single,
+.select2-container .select2-selection--multiple {
+    background-color: #212529 !important;
+    border: 1px solid #495057 !important;
+    color: #fff !important;
+    border-radius: 4px;
+    min-height: 38px;
+}
+
+/* Texte sélectionné */
+.select2-container .select2-selection--single .select2-selection__rendered {
+    color: #fff !important;
+    padding-left: 12px;
+    line-height: 36px;
+}
+
+/* Placeholder */
+.select2-container .select2-selection--single .select2-selection__placeholder {
+    color: #adb5bd !important;
+}
+
+/* Dropdown ouvert */
+.select2-container.select2-container--open .select2-selection {
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Dropdown menu */
+.select2-dropdown {
+    background-color: #212529;
+    border: 1px solid #495057;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+/* Zone de recherche */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: #343a40;
+    border: 1px solid #495057;
+    color: #fff;
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    outline: 0;
+}
+
+/* Options du dropdown */
+.select2-container--default .select2-results__option {
+    padding: 0.5rem 0.75rem;
+    color: #fff;
+}
+
+/* Option survolée */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+/* Option sélectionnée */
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #495057;
+    color: #fff;
+}
+
+/* Message "Aucun résultat" */
+.select2-container--default .select2-results__message {
+    color: #adb5bd;
+}
+
+/* Icônes */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #adb5bd transparent transparent transparent;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #adb5bd transparent;
+}
+
+/* Corriger le z-index pour fonctionner avec les modals */
+.select2-container--open {
+    z-index: 1060 !important;
+}
+
+/* Clear button */
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    color: #adb5bd;
+    margin-right: 10px;
+}
+
+/* Ajout d'une classe pour le dropdown sombre */
+.select2-dropdown-dark {
+    background-color: #212529;
+}
+
+/* Version responsive pour mobile */
+@media (max-width: 767.98px) {
+    .select2-container {
+        width: 100% !important;
+    }
+}
