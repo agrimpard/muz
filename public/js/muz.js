@@ -227,7 +227,9 @@ $(document).ready(function() {
                 try { window.muzAudioEl = audioPlayer.media; window.dispatchEvent(new Event('muz:audio-el-ready')); } catch(_) {}
                 if (typeof window.vizStart === 'function') window.vizStart();
             });
-            audioPlayer.on('pause', function(){ if (typeof window.vizStop === 'function') window.vizStop(); });
+            audioPlayer.on('pause', function(){
+                if (typeof window.vizFreeze === 'function') window.vizFreeze();
+            });
             audioPlayer.on('ended', function(){ if (typeof window.vizStop === 'function') window.vizStop(); });
         } catch(_) {}
                
@@ -912,7 +914,10 @@ $(document).ready(function() {
             $('#sidebar-start-time').removeClass('btn-dark text-white').addClass('btn-outline-info');
         }
         
-        // Arrêter toute lecture en cours avant de changer de source (évite des aborts inutiles)
+    // Préparer le visualizer au changement de piste (attendra un vrai mouvement pour s'afficher)
+    try { if (typeof window.vizPrepareTrack === 'function') window.vizPrepareTrack(); } catch(_) {}
+
+    // Arrêter toute lecture en cours avant de changer de source (évite des aborts inutiles)
         try { if (audioPlayer && typeof audioPlayer.pause === 'function') { audioPlayer.pause(); } } catch(e) { /* noop */ }
 
         // Avec Plyr, on met à jour la source via l'API
