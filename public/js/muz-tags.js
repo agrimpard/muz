@@ -274,28 +274,89 @@ $(document).ready(function() {
     });
     
     // Clic sur un tag (délégué pour prendre en compte les tags ajoutés dynamiquement)
-    $(document).off('click.muzTagFilter', '.filter-tag').on('click.muzTagFilter', '.filter-tag', function(e) {
-        e.preventDefault();
-        const tagId = parseInt($(this).data('id'));
-        // Ignorer le bouton untagged ici (il a son handler dédié)
-        if (isNaN(tagId)) {
-            return;
-        }
-        const isActive = !excludedTags.includes(tagId);
-        
-        if (isActive) {
-            excludedTags.push(tagId);
-        } else {
-            const index = excludedTags.indexOf(tagId);
-            if (index !== -1) excludedTags.splice(index, 1);
-        }
-        
-        saveExcludedTags(excludedTags);
-        updateTagStyles();
-    filterMp3Items();
-    if (typeof window.refreshSongsList === 'function') window.refreshSongsList();
-        checkFiltersActive();
-    });
+    // Gestion du clic long (> 1 seconde) pour activer/désactiver tous les autres tags
+    let longPressTimer = null;
+    let longPressTriggered = false;
+
+    $(document)
+        .off('mousedown.muzTagFilter touchstart.muzTagFilter', '.filter-tag')
+        .on('mousedown.muzTagFilter touchstart.muzTagFilter', '.filter-tag', function(e) {
+            const $tag = $(this);
+            const tagId = parseInt($tag.data('id'));
+            
+            // Ignorer le bouton untagged
+            if (isNaN(tagId)) {
+                return;
+            }
+
+            longPressTriggered = false;
+            
+            longPressTimer = setTimeout(function() {
+                // Clic long détecté - isoler ce tag (l'activer et désactiver tous les autres)
+                longPressTriggered = true;
+                
+                // Récupérer tous les tags disponibles
+                const allTagIds = [];
+                $('.filter-tag').each(function() {
+                    const id = parseInt($(this).data('id'));
+                    if (!isNaN(id)) {
+                        allTagIds.push(id);
+                    }
+                });
+                
+                // Créer une nouvelle liste d'exclus : tous les tags sauf celui cliqué
+                excludedTags = [];
+                allTagIds.forEach(function(id) {
+                    if (id !== tagId) {
+                        excludedTags.push(id);
+                    }
+                });
+                
+                saveExcludedTags(excludedTags);
+                updateTagStyles();
+                filterMp3Items();
+                if (typeof window.refreshSongsList === 'function') window.refreshSongsList();
+                checkFiltersActive();
+            }, 1000);
+        })
+        .off('mouseup.muzTagFilter mouseleave.muzTagFilter touchend.muzTagFilter touchcancel.muzTagFilter', '.filter-tag')
+        .on('mouseup.muzTagFilter mouseleave.muzTagFilter touchend.muzTagFilter touchcancel.muzTagFilter', '.filter-tag', function(e) {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+        })
+        .off('click.muzTagFilter', '.filter-tag')
+        .on('click.muzTagFilter', '.filter-tag', function(e) {
+            e.preventDefault();
+            
+            const tagId = parseInt($(this).data('id'));
+            // Ignorer le bouton untagged ici (il a son handler dédié)
+            if (isNaN(tagId)) {
+                return;
+            }
+            
+            // Si c'était un clic long, ne pas exécuter le toggle normal
+            if (longPressTriggered) {
+                longPressTriggered = false;
+                return;
+            }
+            
+            const isActive = !excludedTags.includes(tagId);
+            
+            if (isActive) {
+                excludedTags.push(tagId);
+            } else {
+                const index = excludedTags.indexOf(tagId);
+                if (index !== -1) excludedTags.splice(index, 1);
+            }
+            
+            saveExcludedTags(excludedTags);
+            updateTagStyles();
+            filterMp3Items();
+            if (typeof window.refreshSongsList === 'function') window.refreshSongsList();
+            checkFiltersActive();
+        });
 
     // Clic sur le bouton "Sans tag"
     $('#filter-untagged').off('click').on('click', function(e) {

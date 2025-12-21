@@ -215,6 +215,8 @@
                     <audio id="audio-player" class="plyr-player" controls></audio>
                 </div>
             </header>
+            <!-- Séparateur redimensionnable pour ajuster la hauteur du lecteur -->
+            <div id="audio-resizer" class="audio-resizer" role="separator" aria-orientation="horizontal" title="Glisser pour ajuster la hauteur du lecteur"></div>
             <!-- Contenu principal -->
             <div class="main-panel">
                 <!-- En-tête de la bibliothèque -->
@@ -712,5 +714,6 @@
     <script src="js/muz-delete-song.js<?php echo '?v=' . time(); ?>"></script>
     <script src="js/muz-db.js<?php echo '?v=' . time(); ?>"></script>
     <script src="js/pwa.js<?php echo '?v=' . time(); ?>"></script>
+    <script src="js/audio-resizer.js<?php echo '?v=' . time(); ?>"></script>
 </body>
 </html>

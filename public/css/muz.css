@@ -250,7 +250,7 @@ header h1 {
 /* Lecteur audio */
 .audio-container {
     padding: 15px;
-    height: 300px;
+    height: 300px; /* hauteur par défaut si aucune préférence mémorisée */
     margin-bottom: 20px;
 	gap: 10px;
     /* background-image sera défini dynamiquement par JavaScript */
@@ -298,7 +298,7 @@ header h1 {
 
 .audio-container .player-m {
     display: inline-block;
-    margin-top: 160px;
+    margin-top: 100px;
     padding: 10px 20px;
     background: #222;
 	color: #FFF;
@@ -700,4 +700,22 @@ header h1 {
     .mp3-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
+}
+
+/* Séparateur pour redimensionner la hauteur du lecteur */
+.audio-resizer {
+    height: 6px;
+    cursor: row-resize;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.35), transparent);
+    position: relative;
+}
+.audio-resizer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
 }

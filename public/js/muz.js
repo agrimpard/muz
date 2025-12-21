@@ -206,7 +206,8 @@ $(document).ready(function() {
             muted: false,
             toggleIconEnabled: true,
             tooltips: { controls: true, seek: true },
-            keyboard: { focused: true, global: false }
+            keyboard: { focused: true, global: false },  
+			blankVideo: 'lib/plyr/blank.mp4',
         };
         
         // Créer l'instance Plyr
