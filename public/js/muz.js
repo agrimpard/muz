@@ -2275,9 +2275,9 @@ $(document).ready(function() {
             return;
         }
         
-        // Récupérer l'ID de la playlist si on est en mode playlist
+        // Récupérer l'ID de la playlist (URL ou select actif)
         const urlParams = new URLSearchParams(window.location.search);
-        const playlistId = urlParams.get('playlist');
+        const playlistId = urlParams.get('playlist') || $('#playlist-select').val() || null;
         
         // Préparer les données à envoyer
         const postData = {

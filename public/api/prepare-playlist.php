@@ -1,80 +1,16 @@
 <?php
-/**
- * API pour préparer une playlist en copiant les fichiers MP3 vers un dossier spécifié
- * Utilise la base de données MySQL pour récupérer les informations des playlists et des chansons
- */
-
-// Empêcher l'affichage des avertissements et erreurs PHP dans la sortie
-// Les journaliser dans les logs à la place
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 ini_set('log_errors', 1);
 
-// Assurer que nous n'avons aucune sortie avant d'envoyer l'en-tête JSON
 ob_start();
 
-// Inclure les fichiers nécessaires avec gestion d'erreurs explicite
-try {
-    $configPath = dirname(__DIR__, 2) . '/config/Config.php';
-    
-    // Vérifier si le fichier existe avant de l'inclure
-    if (!file_exists($configPath)) {
-        error_log("Fichier Config.php introuvable: " . $configPath);
-        header('Content-Type: application/json');
-        exit(json_encode(['success' => false, 'message' => 'Configuration système introuvable']));
-    }
-    
-    require_once $configPath;
-    $config = Config::getInstance();
-    
-    if (!$config) {
-        error_log("Échec de l'initialisation de Config::getInstance()");
-        header('Content-Type: application/json');
-        exit(json_encode(['success' => false, 'message' => 'Échec de l\'initialisation de la configuration']));
-    }
-    
-    error_log("Configuration chargée avec succès");
-    
-    // Connexion à la base de données
-    $dbConfig = $config->getSection('db');
-    if (!$dbConfig) {
-        error_log("Configuration de base de données manquante");
-        header('Content-Type: application/json');
-        exit(json_encode(['success' => false, 'message' => 'Configuration de base de données manquante']));
-    }
-    
-    try {
-        $dsn = "mysql:host={$dbConfig['host']};dbname={$dbConfig['database']};charset=utf8mb4";
-        $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['password'], [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false
-        ]);
-        error_log("Connexion à la base de données établie avec succès");
-    } catch (PDOException $e) {
-        error_log("Erreur de connexion à la base de données: " . $e->getMessage());
-        header('Content-Type: application/json');
-        exit(json_encode(['success' => false, 'message' => 'Erreur de connexion à la base de données: ' . $e->getMessage()]));
-    }
-} catch (Error $e) {
-    error_log("Erreur lors du chargement de la configuration: " . $e->getMessage());
-    header('Content-Type: application/json');
-    exit(json_encode([
-        'success' => false, 
-        'message' => 'Erreur lors du chargement de la configuration: ' . $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine()
-    ]));
-} catch (Exception $e) {
-    error_log("Exception lors du chargement de la configuration: " . $e->getMessage());
-    header('Content-Type: application/json');
-    exit(json_encode([
-        'success' => false, 
-        'message' => 'Exception lors du chargement de la configuration: ' . $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine()
-    ]));
-}
+require_once dirname(__DIR__, 2) . '/config/Config.php';
+require_once dirname(__DIR__, 2) . '/config/Database.php';
+require_once dirname(__DIR__, 2) . '/config/boot_i18n.php';
+
+$config = Config::getInstance();
+$pdo = Database::getInstance()->getConnection();
 
 // Vérifier la méthode de requête
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -121,11 +57,9 @@ if ($playlistId) {
                 $songs[$song['id']] = $song;
             }
             
-            // Si aucun ID de chanson spécifique n'est fourni, utiliser toutes les chansons de la playlist
-            if (empty($songIds)) {
-                $songIds = array_column($playlistSongs, 'id');
-                error_log("Utilisation de toutes les chansons de la playlist: " . count($songIds));
-            }
+            // Toujours utiliser les chansons de la playlist (ignorer les IDs envoyés par le client)
+            $songIds = array_column($playlistSongs, 'id');
+            error_log("Utilisation de toutes les chansons de la playlist: " . count($songIds));
         } else {
             error_log("Aucune chanson trouvée pour la playlist ID: " . $playlistId);
             $songs = [];

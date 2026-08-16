@@ -262,14 +262,27 @@ $(document).ready(function() {
     // Changement du select de playlist
     $('#playlist-select').off('change').on('change', function() {
         const playlistId = $(this).val();
+        const playlistName = $(this).find('option:selected').text();
         if (!playlistId) {
-            // Si "Pas de playlist" est sélectionné, on supprime le filtre
             savePlaylistFilter('');
+            // Revenir à la vue bibliothèque
+            $('#library-title').removeClass('d-none');
+            $('#playlist-title').addClass('d-none').text('');
+            $('#playlist-actions').addClass('d-none');
         } else {
             savePlaylistFilter(playlistId);
+            // Mettre à jour le titre et les boutons d'action
+            $('#library-title').addClass('d-none');
+            $('#playlist-title').removeClass('d-none').text(
+                (window.i18n && window.i18n.playlist_label ? window.i18n.playlist_label : 'Playlist') + ' : ' + playlistName
+            );
+            $('#playlist-actions').removeClass('d-none');
+            $('#playlist-actions .rename-playlist-btn, #playlist-actions .duplicate-playlist-btn, #playlist-actions .delete-playlist-btn')
+                .attr('data-playlist-id', playlistId)
+                .attr('data-playlist-name', playlistName);
         }
-    filterMp3Items();
-    if (typeof window.refreshSongsList === 'function') window.refreshSongsList();
+        filterMp3Items();
+        if (typeof window.refreshSongsList === 'function') window.refreshSongsList();
         checkFiltersActive();
     });
     

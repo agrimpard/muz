@@ -222,67 +222,43 @@
                 <!-- En-tête de la bibliothèque -->
                 <div class="songs-container">
                     <h3 class="p-4">
-                        <?php 
-                        if (isset($_GET['playlist']) && !empty($_GET['playlist'])) {
-                            // Récupérer l'ID de la playlist depuis l'URL
+                        <?php
+                        $hasPlaylist = isset($_GET['playlist']) && !empty($_GET['playlist']);
+                        $playlistId = 0;
+                        $playlistName = '';
+                        if ($hasPlaylist) {
                             $playlistId = (int)$_GET['playlist'];
-                            
-                            // Récupérer les informations de la playlist depuis la liste des playlists
-                            $playlistName = "Playlist";
-                            $playlistObj = null;
-                            
-                            // Rechercher la playlist correspondante dans le tableau $playlists
                             foreach ($playlists as $p) {
                                 if ((int)$p['id'] === $playlistId) {
                                     $playlistName = $p['name'];
-                                    $playlistObj = $p;
                                     break;
                                 }
                             }
-                            
-                            echo '
-                                <div class="playlist-title-wrapper">
-                                    <a href="index.php" class="btn btn-sm btn-outline-secondary back-button"><i class="fas fa-arrow-left me-1"></i> ' . t('back') . '</a>
-                                    <span class="playlist-title flex-grow-1">' . t('playlist_label') . ' : ' . htmlspecialchars($playlistName) . ' (' . count($songs) . ' ' . t('tracks') . ')</span>
-                                    <div class="search-container">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" id="song-search" class="form-control rounded border-primary text-primary" placeholder="' . t('quick_filter') . '">
-                                            <div class="input-group-append">
-                                                <button type="button" id="search-clear" class="btn btn-outline-secondary" style="display: none;">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="playlist-actions">
-                                        <button id="playlist-prep-btn" class="btn btn-sm btn-outline-primary" title="' . t('prepare_copy_title') . '"><i class="fas fa-copy me-1"></i> ' . t('prepare_copy') . '</button>
-                                        <button class="btn btn-sm btn-outline-primary rename-playlist-btn" data-playlist-id="' . $playlistId . '" data-playlist-name="' . htmlspecialchars($playlistName) . '"><i class="fas fa-edit me-1"></i> ' . t('rename') . '</button>
-                                        <button class="btn btn-sm btn-outline-primary duplicate-playlist-btn" data-playlist-id="' . $playlistId . '" data-playlist-name="' . htmlspecialchars($playlistName) . '"><i class="fas fa-clone me-1"></i> ' . t('duplicate') . '</button>
-                                        <button class="btn btn-sm btn-outline-danger delete-playlist-btn" data-playlist-id="' . $playlistId . '" data-playlist-name="' . htmlspecialchars($playlistName) . '"><i class="fas fa-trash-alt me-1"></i> ' . t('delete') . '</button>
-                                    </div>
-                                </div>
-                                <div id="playlist-prep-progress" class="progress mt-2 d-none">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
-                                </div>
-                            ';
-                        } else {
-                            echo '
-                                <div class="playlist-title-wrapper">
-                                    <span class="playlist-title flex-grow-1">' . t('library') . ' (' . count($songs) . ' ' . t('tracks') . ')</span>
-                                    <div class="search-container">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" id="song-search" class="form-control rounded border-primary text-primary" placeholder="' . t('quick_filter') . '">
-                                            <div class="input-group-append">
-                                                <button type="button" id="search-clear" class="btn btn-outline-secondary" style="display: none;">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ';
                         }
                         ?>
+                        <div class="playlist-title-wrapper">
+                            <span id="library-title" class="playlist-title flex-grow-1<?= $hasPlaylist ? ' d-none' : ''; ?>"><?= t('library') . ' (' . count($songs) . ' ' . t('tracks') . ')'; ?></span>
+                            <span id="playlist-title" class="playlist-title flex-grow-1<?= !$hasPlaylist ? ' d-none' : ''; ?>"><?= $hasPlaylist ? t('playlist_label') . ' : ' . htmlspecialchars($playlistName) . ' (' . count($songs) . ' ' . t('tracks') . ')' : ''; ?></span>
+                            <div class="search-container">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" id="song-search" class="form-control rounded border-primary text-primary" placeholder="<?= t('quick_filter'); ?>">
+                                    <div class="input-group-append">
+                                        <button type="button" id="search-clear" class="btn btn-outline-secondary" style="display: none;">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="playlist-actions" class="playlist-actions<?= !$hasPlaylist ? ' d-none' : ''; ?>">
+                                <button id="playlist-prep-btn" class="btn btn-sm btn-outline-primary" title="<?= t('prepare_copy_title'); ?>"><i class="fas fa-copy me-1"></i> <?= t('prepare_copy'); ?></button>
+                                <button class="btn btn-sm btn-outline-primary rename-playlist-btn" data-playlist-id="<?= $playlistId; ?>" data-playlist-name="<?= htmlspecialchars($playlistName); ?>"><i class="fas fa-edit me-1"></i> <?= t('rename'); ?></button>
+                                <button class="btn btn-sm btn-outline-primary duplicate-playlist-btn" data-playlist-id="<?= $playlistId; ?>" data-playlist-name="<?= htmlspecialchars($playlistName); ?>"><i class="fas fa-clone me-1"></i> <?= t('duplicate'); ?></button>
+                                <button class="btn btn-sm btn-outline-danger delete-playlist-btn" data-playlist-id="<?= $playlistId; ?>" data-playlist-name="<?= htmlspecialchars($playlistName); ?>"><i class="fas fa-trash-alt me-1"></i> <?= t('delete'); ?></button>
+                            </div>
+                        </div>
+                        <div id="playlist-prep-progress" class="progress mt-2 d-none">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                        </div>
                     </h3>
                     
                     <!-- Champ de recherche pour filtrer les titres/artistes -->
@@ -688,7 +664,8 @@
                 no_results_artists: <?= json_encode(t('no_results_artists') ?? 'Aucun groupe/artiste trouvé') ?>,
                 searching: <?= json_encode(t('searching') ?? 'Recherche en cours...') ?>,
                 input_too_short: <?= json_encode(t('input_too_short') ?? 'Veuillez saisir au moins 1 caractère') ?>,
-                remove_all_items: <?= json_encode(t('remove_all_items') ?? 'Supprimer tous les éléments') ?>
+                remove_all_items: <?= json_encode(t('remove_all_items') ?? 'Supprimer tous les éléments') ?>,
+                playlist_label: <?= json_encode(t('playlist_label')) ?>
             };
         </script>
 
